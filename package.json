@@ -1,0 +1,28 @@
+{
+  "name": "fieldsync-ai",
+  "version": "1.0.0",
+  "description": "Offline-first AI incident reporting system powered by PowerSync",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vaibhav0xq/fieldsync-ai.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/vaibhav0xq/fieldsync-ai/issues"
+  },
+  "homepage": "https://github.com/vaibhav0xq/fieldsync-ai#readme",
+  "dependencies": {
+    "@powersync/web": "^1.36.0",
+    "@supabase/supabase-js": "^2.99.1",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "openai": "^6.27.0"
+  }
+}
