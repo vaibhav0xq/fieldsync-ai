@@ -163,18 +163,3 @@ MIT License
 ## Hackathon Submission
 
 This project was built for the PowerSync AI Hackathon to demonstrate how AI driven applications can integrate with a local first synchronization engine to build resilient and scalable systems.
-What to do now
-
-Open README.md in your project.
-
-Delete everything inside it.
-
-Paste the content above.
-
-Save.
-
-Push to GitHub:
-
-git add README.md
-git commit -m "Update README"
-git push
