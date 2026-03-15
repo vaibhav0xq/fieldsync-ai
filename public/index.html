@@ -1,228 +1,296 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>FieldSync AI Dashboard</title>
 
-  <style>
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      margin: 0;
-      padding: 40px;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    h2 {
-      text-align: center;
-    }
-
-    form {
-      max-width: 500px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      margin-bottom: 40px;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      margin-bottom: 10px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      background: #2ecc71;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:disabled {
-      background: #aaa;
-      cursor: not-allowed;
-    }
-
-    #reports {
-      max-width: 900px;
-      margin: auto;
-      padding: 0;
-    }
-
-    li {
-      background: white;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      list-style: none;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    }
-
-    .field {
-      margin-bottom: 8px;
-    }
-
-    .label {
-      font-weight: bold;
-      color: #444;
-    }
-
-    .ai-box {
-      margin-top: 15px;
-      padding: 12px;
-      background: #e9f7ef;
-      border-left: 4px solid #2ecc71;
-      border-radius: 4px;
-      white-space: pre-line;
-    }
-
-    .location {
-      color: #666;
-      font-size: 14px;
-    }
-
-  </style>
+<title>FieldSync AI</title>
+<link rel="stylesheet" href="/style.css">
 
 </head>
 
 <body>
 
-<h1>FieldSync AI Reports</h1>
+<div id="connectionStatus" style="text-align:center;margin-bottom:20px;font-weight:bold;">
+Online
+</div>
 
-<h2>Submit New Report</h2>
+<h1>FieldSync AI</h1>
+
+<a href="/dashboard.html">
+<button>View Reports</button>
+</a>
+
+<div class="container">
+
+<h2>Submit Field Report</h2>
 
 <form id="reportForm">
 
-  <label>Type</label>
-  <input type="text" id="type" required>
+<label>Type</label>
+<input id="type" required>
 
-  <label>Category</label>
-  <input type="text" id="category" required>
+<label>Category</label>
+<input id="category" required>
 
-  <label>Location</label>
-  <input type="text" id="location" required>
+<label>Location</label>
+<input id="location" required>
 
-  <label>Description</label>
-  <textarea id="description" required></textarea>
+<label>Description</label>
+<textarea id="description" required></textarea>
 
-  <button id="submitBtn" type="submit">Submit Report</button>
+<label>Upload Image</label>
+<input type="file" id="image">
+
+<button id="submitBtn" type="submit">Submit Report</button>
 
 </form>
 
-<ul id="reports"></ul>
+</div>
 
 <script>
 
-async function loadReports() {
+const form = document.getElementById("reportForm")
+const btn = document.getElementById("submitBtn")
 
-  try {
+const OFFLINE_QUEUE_KEY = "offlineReports"
 
-    const res = await fetch("/api/reports");
-    const data = await res.json();
 
-    const list = document.getElementById("reports");
-    list.innerHTML = "";
+/* ------------------------------
+QUEUE STATUS UI
+------------------------------ */
 
-    data.data.forEach(report => {
+function updateQueueStatus(){
 
-      const item = document.createElement("li");
+  const status = document.getElementById("connectionStatus")
+  const queue = JSON.parse(localStorage.getItem(OFFLINE_QUEUE_KEY)) || []
 
-      item.innerHTML = `
-        <div class="field">
-          <span class="label">Type:</span> ${report.type}
-        </div>
+  if(!navigator.onLine){
 
-        <div class="field">
-          <span class="label">Category:</span> ${report.category}
-        </div>
+    status.innerText = `Offline Mode (${queue.length} report${queue.length!==1?"s":""} waiting to sync)`
+    status.style.color = "red"
 
-        <div class="field location">
-          Location: ${report.location}
-        </div>
+  }else{
 
-        <div class="field">
-          <span class="label">Description:</span><br>
-          ${report.description}
-        </div>
+    if(queue.length>0){
 
-        <div class="ai-box">
-          <strong>AI Recommendation</strong><br><br>
-          ${report.ai_analysis || "Analysis pending..."}
-        </div>
-      `;
+      status.innerText = `Online (${queue.length} report${queue.length!==1?"s":""} syncing)`
+      status.style.color = "orange"
 
-      list.appendChild(item);
+    }else{
 
-    });
+      status.innerText = "Online"
+      status.style.color = "green"
 
-  } catch (error) {
-
-    console.error("Failed to load reports");
+    }
 
   }
 
 }
 
 
-document.getElementById("reportForm").addEventListener("submit", async function(e) {
+/* ------------------------------
+NETWORK EVENTS
+------------------------------ */
 
-  e.preventDefault();
+window.addEventListener("online",()=>{
+  updateQueueStatus()
+  syncOfflineReports()
+})
 
-  const btn = document.getElementById("submitBtn");
-  btn.disabled = true;
+window.addEventListener("offline",updateQueueStatus)
 
-  const report = {
-    type: document.getElementById("type").value,
-    category: document.getElementById("category").value,
-    location: document.getElementById("location").value,
-    description: document.getElementById("description").value
-  };
+updateQueueStatus()
 
-  try {
 
-    const res = await fetch("/api/report", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(report)
-    });
+/* ------------------------------
+OFFLINE STORAGE
+------------------------------ */
 
-    const data = await res.json();
+function getOfflineReports(){
 
-    if (!res.ok) {
-      throw new Error(data.error || "Submission failed");
+  return JSON.parse(localStorage.getItem(OFFLINE_QUEUE_KEY)) || []
+
+}
+
+function saveOfflineReport(report){
+
+  const queue = getOfflineReports()
+
+  queue.push(report)
+
+  localStorage.setItem(
+    OFFLINE_QUEUE_KEY,
+    JSON.stringify(queue)
+  )
+
+  updateQueueStatus()
+
+}
+
+
+/* ------------------------------
+IMAGE → BASE64
+------------------------------ */
+
+function fileToBase64(file){
+
+  return new Promise((resolve)=>{
+
+    const reader = new FileReader()
+
+    reader.onload = ()=> resolve(reader.result)
+
+    reader.readAsDataURL(file)
+
+  })
+
+}
+
+
+/* ------------------------------
+BASE64 → BLOB
+------------------------------ */
+
+async function base64ToBlob(base64){
+
+  const res = await fetch(base64)
+
+  return await res.blob()
+
+}
+
+
+/* ------------------------------
+SYNC OFFLINE REPORTS
+------------------------------ */
+
+async function syncOfflineReports(){
+
+  const reports = getOfflineReports()
+
+  if(reports.length===0){
+    return
+  }
+
+  console.log("Syncing offline reports...")
+
+  for(const report of reports){
+
+    const formData = new FormData()
+
+    formData.append("type",report.type)
+    formData.append("category",report.category)
+    formData.append("location",report.location)
+    formData.append("description",report.description)
+
+    if(report.image){
+
+      const blob = await base64ToBlob(report.image)
+
+      formData.append("image",blob,"offline.jpg")
+
     }
 
-    alert("Report submitted successfully!");
-
-    document.getElementById("reportForm").reset();
-
-    loadReports();
-
-  } catch (error) {
-
-    alert("Error submitting report");
+    await fetch("/api/report",{
+      method:"POST",
+      body:formData
+    })
 
   }
 
-  btn.disabled = false;
+  localStorage.removeItem(OFFLINE_QUEUE_KEY)
 
-});
+  updateQueueStatus()
 
-loadReports();
+  alert("Offline reports synced successfully!")
+
+}
+
+
+/* ------------------------------
+FORM SUBMIT
+------------------------------ */
+
+form.addEventListener("submit", async function(e){
+
+  e.preventDefault()
+
+  btn.innerText="Submitting..."
+  btn.disabled=true
+
+  const type=document.getElementById("type").value
+  const category=document.getElementById("category").value
+  const location=document.getElementById("location").value
+  const description=document.getElementById("description").value
+
+  const image=document.getElementById("image").files[0]
+
+/* ------------------------------
+OFFLINE MODE
+------------------------------ */
+
+  if(!navigator.onLine){
+
+    let imageBase64=null
+
+    if(image){
+      imageBase64=await fileToBase64(image)
+    }
+
+    saveOfflineReport({
+      type,
+      category,
+      location,
+      description,
+      image:imageBase64
+    })
+
+    alert("No internet. Report saved offline.")
+
+    form.reset()
+
+    btn.innerText="Submit Report"
+    btn.disabled=false
+
+    return
+  }
+
+/* ------------------------------
+ONLINE MODE
+------------------------------ */
+
+  const formData=new FormData()
+
+  formData.append("type",type)
+  formData.append("category",category)
+  formData.append("location",location)
+  formData.append("description",description)
+
+  if(image){
+    formData.append("image",image)
+  }
+
+  await fetch("/api/report",{
+    method:"POST",
+    body:formData
+  })
+
+  alert("Report submitted successfully")
+
+  form.reset()
+
+  btn.innerText="Submit Report"
+  btn.disabled=false
+
+})
+
+
+/* ------------------------------
+SYNC ON PAGE LOAD
+------------------------------ */
+
+if(navigator.onLine){
+  syncOfflineReports()
+}
 
 </script>
 

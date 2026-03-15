@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>FieldSync AI Reports</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<h1>FieldSync AI Reports</h1>
+
+<a href="/">
+<button>Submit Report</button>
+</a>
+
+<div class="container">
+
+<input
+id="search"
+placeholder="Search reports (location, crop disease, risk level...)"
+style="width:100%;padding:10px;margin-bottom:20px;border-radius:6px;border:none"
+>
+
+<div id="reports"></div>
+
+</div>
+
+<script>
+
+let allReports=[]
+
+
+// ======================
+// AI RISK BADGE DETECTOR
+// ======================
+
+function detectRisk(aiText){
+
+const text = (aiText || "").toLowerCase()
+
+// PRIORITY: match explicit AI risk level
+if(text.includes("risk level: high")){
+return {label:"High Risk",icon:"🔴",color:"red"}
+}
+
+if(text.includes("risk level: medium")){
+return {label:"Moderate Risk",icon:"🟡",color:"orange"}
+}
+
+if(text.includes("risk level: low")){
+return {label:"Low Risk",icon:"🟢",color:"green"}
+}
+
+// fallback keyword detection
+if(
+text.includes("severe") ||
+text.includes("infection") ||
+text.includes("blight") ||
+text.includes("fungal")
+){
+return {label:"High Risk",icon:"🔴",color:"red"}
+}
+
+if(
+text.includes("monitor") ||
+text.includes("possible") ||
+text.includes("nutrient") ||
+text.includes("stress")
+){
+return {label:"Moderate Risk",icon:"🟡",color:"orange"}
+}
+
+return {label:"Low Risk",icon:"🟢",color:"green"}
+
+}
+
+
+// ======================
+// LOAD REPORTS
+// ======================
+
+async function loadReports(){
+
+const res = await fetch("/api/reports")
+const data = await res.json()
+
+allReports = data.data
+
+renderReports(allReports)
+
+}
+
+
+// ======================
+// RENDER REPORTS
+// ======================
+
+function renderReports(reports){
+
+const container = document.getElementById("reports")
+
+container.innerHTML=""
+
+reports.forEach(function(r){
+
+let ai = r.ai_analysis || "Analysis pending"
+
+const risk = detectRisk(ai)
+
+
+// risk level formatting
+ai = ai
+.replace(/Risk Level:\s*HIGH/gi,"Risk Level: <span class='risk-high'>HIGH</span>")
+.replace(/Risk Level:\s*High/gi,"Risk Level: <span class='risk-high'>HIGH</span>")
+.replace(/Risk Level:\s*MEDIUM/gi,"Risk Level: <span class='risk-medium'>MEDIUM</span>")
+.replace(/Risk Level:\s*Medium/gi,"Risk Level: <span class='risk-medium'>MEDIUM</span>")
+.replace(/Risk Level:\s*LOW/gi,"Risk Level: <span class='risk-low'>LOW</span>")
+.replace(/Risk Level:\s*Low/gi,"Risk Level: <span class='risk-low'>LOW</span>")
+
+
+// advice formatting
+ai = ai.replace("Advice:", "<br><b>Advice:</b><br>")
+
+
+const div = document.createElement("div")
+
+div.className="report"
+
+div.innerHTML=`
+
+<div style="font-weight:bold;font-size:16px;color:${risk.color};margin-bottom:10px;">
+${risk.icon} ${risk.label}
+</div>
+
+<b>Type:</b> ${r.type || "N/A"}<br>
+<b>Category:</b> ${r.category || "N/A"}<br>
+<b>Location:</b> ${r.location || "Unknown"}<br>
+<b>Reported:</b> ${new Date(r.created_at).toLocaleString()}<br><br>
+
+<b>Description:</b><br>
+${r.description || "No description"}
+
+${r.image_url ? `<img src="${r.image_url}" style="width:100%;max-width:400px;border-radius:8px;margin-top:10px;">` : ""}
+
+<div class="ai-box">
+
+<b>AI Recommendation</b><br><br>
+
+${ai}
+
+</div>
+
+`
+
+container.appendChild(div)
+
+})
+
+}
+
+
+// ======================
+// SEARCH FILTER
+// ======================
+
+document.getElementById("search").addEventListener("input",function(){
+
+const query = this.value.toLowerCase()
+
+const filtered = allReports.filter(function(r){
+
+return (
+(r.type && r.type.toLowerCase().includes(query)) ||
+(r.category && r.category.toLowerCase().includes(query)) ||
+(r.location && r.location.toLowerCase().includes(query)) ||
+(r.description && r.description.toLowerCase().includes(query)) ||
+(r.ai_analysis && r.ai_analysis.toLowerCase().includes(query))
+)
+
+})
+
+renderReports(filtered)
+
+})
+
+
+// ======================
+// INITIAL LOAD
+// ======================
+
+loadReports()
+
+
+// ======================
+// AUTO REFRESH DASHBOARD
+// ======================
+
+setInterval(loadReports,5000)
+
+</script>
+
+</body>
+
+</html>

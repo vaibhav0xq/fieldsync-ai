@@ -1,42 +1,146 @@
-const express = require("express");
-const router = express.Router();
-const supabase = require("../database/supabaseClient");
-const OpenAI = require("openai");
+const express = require("express")
+const router = express.Router()
+const multer = require("multer")
+const OpenAI = require("openai")
+const supabase = require("../database/supabaseClient")
+
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+})
 
 
 // =======================
-// POST /report
-// Save report + AI analysis
+// POST REPORT
 // =======================
 
-router.post("/report", async (req, res) => {
-  const { type, category, location, description } = req.body;
-
-  const client = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-  });
+router.post("/report", upload.single("image"), async (req, res) => {
 
   try {
 
-    // Run AI analysis
-    const completion = await client.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
+    const { type, category, location, description } = req.body
+
+    let imageUrl = null
+
+    // =======================
+    // Upload image to Supabase
+    // =======================
+
+    if (req.file) {
+
+      const fileName = `reports/${Date.now()}_${req.file.originalname}`
+
+      const { error } = await supabase.storage
+        .from("report-images")
+        .upload(fileName, req.file.buffer, {
+          contentType: req.file.mimetype
+        })
+
+      if (!error) {
+
+        const { data } = supabase.storage
+          .from("report-images")
+          .getPublicUrl(fileName)
+
+        imageUrl = data.publicUrl
+
+      }
+
+    }
+
+
+    // =======================
+    // AI ANALYSIS
+    // =======================
+
+    let aiAnalysis = "AI analysis unavailable."
+
+    try {
+
+      const messages = [
         {
           role: "system",
-          content:
-            "You are an expert assistant helping diagnose agriculture, infrastructure, or disaster-related issues."
-        },
-        {
-          role: "user",
-          content: `Analyze this report and suggest possible causes and actions: ${description}`
+          content: "You are an agriculture expert helping farmers diagnose crop problems. Focus strongly on what is visible in the image."
         }
       ]
-    });
 
-    const aiResult = completion.choices[0].message.content;
 
-    // Store report + AI result in Supabase
+      if (imageUrl) {
+
+        messages.push({
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: `
+Analyze this crop problem reported by a farmer.
+
+Type: ${type}
+Category: ${category}
+Location: ${location}
+Description: ${description}
+
+Respond exactly in this format:
+
+Risk Level: (Low / Medium / High)
+
+Advice:
+Maximum 80 words. Provide practical steps farmers should take.
+`
+            },
+            {
+              type: "image_url",
+              image_url: {
+                url: imageUrl
+              }
+            }
+          ]
+        })
+
+      } else {
+
+        messages.push({
+          role: "user",
+          content: `
+Analyze this crop problem reported by a farmer.
+
+Type: ${type}
+Category: ${category}
+Location: ${location}
+Description: ${description}
+
+Respond exactly in this format:
+
+Risk Level: (Low / Medium / High)
+
+Advice:
+Maximum 80 words. Provide practical steps farmers should take.
+`
+        })
+
+      }
+
+
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: messages
+      })
+
+      aiAnalysis = completion.choices[0].message.content
+
+    } catch (aiError) {
+
+      console.error("AI ERROR:", aiError.message)
+
+    }
+
+
+    // =======================
+    // SAVE REPORT
+    // =======================
+
     const { data, error } = await supabase
       .from("reports")
       .insert([
@@ -45,65 +149,77 @@ router.post("/report", async (req, res) => {
           category,
           location,
           description,
-          ai_analysis: aiResult
+          image_url: imageUrl,
+          ai_analysis: aiAnalysis
         }
       ])
-      .select();
+      .select()
 
     if (error) {
-      console.error("Supabase insert error:", error);
+
+      console.error("Database error:", error)
+
       return res.status(500).json({
-        error: "Database insert failed"
-      });
+        error: "Failed to store report"
+      })
+
     }
 
     res.json({
-      status: "success",
-      report: data,
-    });
+      success: true,
+      report: data[0]
+    })
 
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+
+    console.error("Server error:", err)
+
     res.status(500).json({
-      error: "AI analysis failed"
-    });
+      error: "Unexpected server error"
+    })
+
   }
-});
+
+})
 
 
 // =======================
-// GET /reports
-// Fetch reports
+// GET REPORTS
 // =======================
 
 router.get("/reports", async (req, res) => {
+
   try {
 
     const { data, error } = await supabase
       .from("reports")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
 
     if (error) {
-      console.error(error);
+
+      console.error(error)
+
       return res.status(500).json({
         error: "Failed to fetch reports"
-      });
+      })
+
     }
 
     res.json({
-      status: "success",
-      count: data.length,
-      data: data
-    });
+      data
+    })
 
   } catch (err) {
-    console.error(err);
+
+    console.error(err)
+
     res.status(500).json({
       error: "Unexpected server error"
-    });
+    })
+
   }
-});
 
+})
 
-module.exports = router;
+module.exports = router

@@ -1,0 +1,202 @@
+/* =========================
+GLOBAL
+========================= */
+
+body{
+background:#0b0f14;
+color:white;
+font-family:Arial, Helvetica, sans-serif;
+margin:0;
+padding:0;
+text-align:center;
+}
+
+/* =========================
+HEADINGS
+========================= */
+
+h1{
+margin-top:40px;
+margin-bottom:20px;
+font-size:32px;
+}
+
+h2{
+margin-top:40px;
+margin-bottom:20px;
+}
+
+/* =========================
+BUTTONS
+========================= */
+
+button{
+background:#2ecc71;
+border:none;
+color:white;
+padding:12px 22px;
+border-radius:8px;
+font-size:14px;
+cursor:pointer;
+transition:0.2s;
+}
+
+button:hover{
+background:#27ae60;
+}
+
+/* =========================
+FORM CONTAINER
+========================= */
+
+form{
+display:flex;
+flex-direction:column;
+gap:12px;
+max-width:520px;
+margin:30px auto;
+padding:25px;
+background:#111827;
+border-radius:10px;
+}
+
+/* =========================
+INPUTS
+========================= */
+
+input,
+textarea{
+width:100%;
+padding:12px;
+border-radius:8px;
+border:none;
+background:#2b2b2b;
+color:white;
+font-size:14px;
+}
+
+input:focus,
+textarea:focus{
+outline:none;
+background:#333;
+}
+
+textarea{
+height:100px;
+resize:none;
+}
+
+/* =========================
+FILE INPUT
+========================= */
+
+input[type="file"]{
+display:block;
+margin:10px auto 15px auto;
+color:white;
+}
+
+/* =========================
+FORM BUTTON
+========================= */
+
+form button{
+width:180px;
+margin:10px auto;
+}
+
+/* =========================
+REPORT CONTAINER
+========================= */
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+/* =========================
+REPORT CARD
+========================= */
+
+.report{
+background:#1a1a1a;
+padding:20px;
+border-radius:10px;
+margin-bottom:25px;
+text-align:left;
+box-shadow:0 0 10px rgba(0,0,0,0.4);
+}
+
+/* =========================
+REPORT IMAGE
+========================= */
+
+.report img{
+width:260px;
+border-radius:8px;
+margin-top:10px;
+margin-bottom:15px;
+}
+
+/* =========================
+AI BOX
+========================= */
+
+.ai-box{
+background:#1f5133;
+padding:18px;
+border-radius:8px;
+margin-top:15px;
+line-height:1.6;
+}
+
+/* =========================
+RISK BADGES
+========================= */
+
+.risk-high{
+background:#ff4d4d;
+color:white;
+padding:3px 8px;
+border-radius:6px;
+font-size:12px;
+font-weight:bold;
+}
+
+.risk-medium{
+background:#f1c40f;
+color:black;
+padding:3px 8px;
+border-radius:6px;
+font-size:12px;
+font-weight:bold;
+}
+
+.risk-low{
+background:#2ecc71;
+color:white;
+padding:3px 8px;
+border-radius:6px;
+font-size:12px;
+font-weight:bold;
+}
+
+/* =========================
+SEARCH BAR
+========================= */
+
+#search{
+width:100%;
+padding:12px;
+border-radius:8px;
+border:none;
+background:#2b2b2b;
+color:white;
+margin-bottom:25px;
+}
+
+#search:focus{
+outline:none;
+background:#333;
+}

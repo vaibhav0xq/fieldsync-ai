@@ -1,165 +1,200 @@
-# FieldSync AI
+# 🌾 FieldSync AI
+### AI-Powered Crop Diagnostics with Local-First Reporting
 
-AI powered offline first incident reporting system built with PowerSync, Supabase and OpenAI.
+FieldSync AI is a crop health reporting platform designed for farmers and field workers operating in low-connectivity environments. Farmers can submit crop issue reports with optional images, receive AI-powered recommendations, and automatically synchronize reports to the cloud when internet connectivity becomes available.
 
-## Project Preview
-
-![FieldSync Dashboard](assets/dashboard.png)
-
-FieldSync AI is an AI powered incident reporting system designed for field workers such as those in agriculture, utilities, and disaster response. Users can submit reports describing problems observed in the field, and the system automatically generates AI based recommendations for possible causes and actions.
-
-The project demonstrates how AI workflows can integrate with a cloud database and a local first synchronization architecture using PowerSync.
+This project was built for the **PowerSync AI Hackathon**.
 
 ---
 
-## Key Features
+# 🚜 Problem
 
-### AI Powered Analysis
-Reports are analyzed using the OpenAI API to generate possible causes and recommended actions.
+Farmers in rural regions often face:
 
-### Cloud Database Storage
-Reports and AI analysis are stored in Supabase using a PostgreSQL database.
+- Limited access to agronomy experts
+- Poor internet connectivity in fields
+- Delayed crop disease detection
+- Lack of structured reporting tools
 
-### Local First Architecture
-The system is designed to support local first synchronization using PowerSync, enabling offline capable workflows.
-
-### Simple Dashboard
-A browser based dashboard displays submitted reports and AI generated recommendations.
+These issues can lead to **late intervention and crop loss**.
 
 ---
 
-## Architecture
+# 💡 Solution
 
-Dashboard (Web UI)
+FieldSync AI provides a **local-first crop diagnostics platform** where farmers can:
+
+- Submit crop issue reports with images
+- Receive AI-generated diagnosis and treatment advice
+- Store reports locally when offline
+- Automatically sync reports when internet returns
+- View historical reports in a centralized dashboard
+
+This ensures **continuous operation even in poor connectivity environments**.
+
+---
+
+# 🧠 Key Features
+
+### 🌱 AI Crop Diagnostics
+Reports are analyzed using OpenAI to identify potential crop diseases and recommended actions.
+
+### 📷 Image-Based Reporting
+Farmers can attach crop images to help the AI analyze plant health issues.
+
+### 📡 Local-First Offline Mode
+Reports are saved locally when internet connectivity is unavailable.
+
+### 🔄 Automatic Sync
+Once connectivity returns, reports automatically synchronize with the cloud database.
+
+### 📊 Live Dashboard
+A dashboard displays submitted reports, images, AI analysis, and risk levels.
+
+### 🚨 AI Risk Classification
+AI responses are classified into:
+
+- 🔴 High Risk
+- 🟡 Moderate Risk
+- 🟢 Low Risk
+
+to help farmers quickly understand severity.
+
+### 🔍 Searchable Reports
+Users can search reports by:
+
+- location
+- category
+- disease
+- AI analysis text
+
+---
+
+# 🏗️ Architecture
+
+Farmer Device
 ↓
-Express API (Node.js)
+FieldSync Web App
 ↓
-PowerSync Sync Engine
+Offline Queue (Local Storage)
+↓
+Internet Restored
+↓
+Express API
+↓
+Image Upload → Supabase Storage
+↓
+AI Analysis → OpenAI
 ↓
 Supabase PostgreSQL
 ↓
-AI Analysis (OpenAI)
+Dashboard Interface
 
 
-This architecture allows fast local access, offline capable operation, and reliable synchronization with backend services.
+The system is designed using **local-first principles** to support unreliable connectivity in rural farming environments.
 
 ---
 
-## Tech Stack
-
-### Backend
-Node.js  
-Express
-
-### Database
-Supabase (PostgreSQL)
-
-### AI
-OpenAI API
-
-### Sync Engine
-PowerSync
+# ⚙️ Tech Stack
 
 ### Frontend
-HTML and JavaScript dashboard
+- HTML
+- CSS
+- Vanilla JavaScript
+
+### Backend
+- Node.js
+- Express.js
+
+### Database
+- Supabase PostgreSQL
+
+### File Storage
+- Supabase Storage
+
+### AI
+- OpenAI GPT model
+
+### Image Upload
+- Multer
 
 ---
 
-## Setup Instructions
+# 🔁 Offline Sync Workflow
 
-### 1. Clone the repository
+Farmer submits report
+↓
+Internet available?
+├── YES → Send to API
+└── NO → Save locally
 
+When internet returns
+↓
+Offline reports sync automatically
+↓
+AI analysis runs
+↓
+Dashboard updates
 
-git clone https://github.com/vaibhav0xq/fieldsync-ai.git
-
-cd fieldsync-ai
-
-
-### 2. Install dependencies
-
-
-npm install
-
-
-### 3. Create environment variables
-
-Create a `.env` file in the project root and add the following:
-
-
-OPENAI_API_KEY=your_openai_api_key
-SUPABASE_URL=your_supabase_project_url
-SUPABASE_KEY=your_supabase_anon_public_key
-
-
-### 4. Run the server
-
-
-node server.js
-
-
-Open the dashboard in your browser:
-
-
-http://localhost:3000
-
+This design allows farmers to **continue reporting even without connectivity**.
 
 ---
 
-## API Endpoints
+# 🌍 Local-First Design
 
-### Submit Report
+FieldSync AI follows a **local-first architecture** where:
 
+- Reports are stored locally on the device
+- The application remains fully functional offline
+- Data automatically synchronizes with the cloud when connectivity returns
 
-POST /api/report
-
-
-Example request:
-
-
-{
-"type": "crop_disease",
-"category": "agriculture",
-"location": "Village A",
-"description": "Leaves turning yellow"
-}
-
-
-### Fetch Reports
-
-
-GET /api/reports
-
-
-Returns stored reports including AI generated analysis.
+This makes the platform suitable for **rural agriculture environments** with unreliable internet.
 
 ---
 
-## Demo Workflow
+# 📷 Example Dashboard
 
-1. A user submits an incident report  
-2. The system sends the description to the AI model for analysis  
-3. AI generates possible causes and recommended actions  
-4. The report and AI recommendation are stored in the database  
-5. The dashboard displays the stored reports and insights
+The dashboard displays:
 
----
+- report metadata
+- uploaded crop images
+- AI diagnosis
+- risk level classification
+- timestamps
 
-## Use Cases
-
-Agriculture crop disease detection  
-Infrastructure maintenance reporting  
-Infrastructure maintenance reporting  
-Disaster damage assessment  
-Industrial field inspections
+This allows farmers or agronomists to quickly assess crop health across reports.
 
 ---
 
-## License
+# 🚀 Future Improvements
+
+Potential next steps include:
+
+- Mobile app version
+- Real-time crop disease alerts
+- Region-based disease tracking
+- Farm-level analytics
+- AI model trained on crop disease datasets
+
+---
+
+# 🏆 Hackathon Tracks
+
+This project qualifies for:
+
+- Main PowerSync AI Hackathon prizes
+- Best Local-First Submission
+- Best Supabase Submission
+
+---
+
+# 👨‍💻 Author
+
+Vaibhav  
+Software Engineer | Web3 & AI Builder
+
+---
+
+# 📜 License
 
 MIT License
-
----
-
-## Hackathon Submission
-
-This project was built for the PowerSync AI Hackathon to demonstrate how AI driven applications can integrate with a local first synchronization engine to build resilient and scalable systems.
