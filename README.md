@@ -8,13 +8,13 @@ This project was built for the **PowerSync AI Hackathon**.
 
 ---
 
-## 📸 Demo
+## Demo
 
-![FieldSync Dashboard](assets/dashboard.png)
+![FieldSync Dashboard](assets)
 
 ---
 
-# 🚜 Problem
+# Problem
 
 Farmers in rural regions often face:
 
@@ -27,7 +27,7 @@ These issues can lead to **late intervention and crop loss**.
 
 ---
 
-# 💡 Solution
+# Solution
 
 FieldSync AI provides a **local-first crop diagnostics platform** where farmers can:
 
@@ -41,31 +41,31 @@ This ensures **continuous operation even in poor connectivity environments**.
 
 ---
 
-# 🧠 Key Features
+# Key Features
 
-### 🌱 AI Crop Diagnostics
+### AI Crop Diagnostics
 Reports are analyzed using OpenAI to identify potential crop diseases and recommended actions.
 
-### 📷 Image-Based Reporting
+### Image-Based Reporting
 Farmers can attach crop images to help the AI analyze plant health issues.
 
-### 📡 Local-First Offline Mode
+### Local-First Offline Mode
 Reports are saved locally when internet connectivity is unavailable.
 
-### 🔄 Automatic Sync
+### Automatic Sync
 Once connectivity returns, reports automatically synchronize with the cloud database.
 
-### 📊 Live Dashboard
+### Live Dashboard
 A dashboard displays submitted reports, images, AI analysis, and risk levels.
 
-### 🚨 AI Risk Classification
+### AI Risk Classification
 AI responses are classified into:
 
 - 🔴 High Risk
 - 🟡 Moderate Risk
 - 🟢 Low Risk
 
-### 🔍 Searchable Reports
+### Searchable Reports
 Users can search reports by:
 
 - location
@@ -75,7 +75,7 @@ Users can search reports by:
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 Farmer Device
@@ -101,7 +101,7 @@ FieldSync AI follows a **local-first architecture**, enabling farmers to submit 
 
 ---
 
-# ⚙️ Tech Stack
+# Tech Stack
 
 ### Frontend
 - HTML
@@ -126,7 +126,7 @@ FieldSync AI follows a **local-first architecture**, enabling farmers to submit 
 
 ---
 
-# 🔁 Offline Sync Workflow
+# Offline Sync Workflow
 
 ```
 Farmer submits report
@@ -148,7 +148,7 @@ This design allows farmers to **continue reporting even without connectivity**.
 
 ---
 
-# 🌍 Local-First Design
+# Local-First Design
 
 FieldSync AI follows a **local-first architecture** where:
 
@@ -160,7 +160,7 @@ This makes the platform suitable for **rural agriculture environments** with unr
 
 ---
 
-# 📷 Example Dashboard
+# Example Dashboard
 
 The dashboard displays:
 
@@ -174,7 +174,7 @@ This allows farmers or agronomists to quickly assess crop health across reports.
 
 ---
 
-# 🚀 Run Locally
+# Run Locally
 
 Clone the repository:
 
@@ -211,7 +211,7 @@ http://localhost:3000
 
 ---
 
-# 🚀 Future Improvements
+# Future Improvements
 
 Potential next steps include:
 
@@ -223,19 +223,19 @@ Potential next steps include:
 
 ---
 
-# 🏆 Hackathon Tracks
+# Hackathon Tracks
 
 This project was built for the **PowerSync AI Hackathon** and demonstrates a **local-first AI-powered agricultural diagnostics platform**.
 
 ---
 
-# 👨‍💻 Author
+# Author
 
 **Vaibhav**  
 Software Engineer | Web3 & AI Builder
 
 ---
 
-# 📜 License
+# License
 
 MIT License
