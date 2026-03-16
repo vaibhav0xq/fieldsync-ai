@@ -10,7 +10,7 @@ This project was built for the **PowerSync AI Hackathon**.
 
 ## 📸 Demo
 
-![FieldSync Dashboard](assets)
+![FieldSync Dashboard](assets/dashboard.png)
 
 ---
 
@@ -65,37 +65,37 @@ AI responses are classified into:
 - 🟡 Moderate Risk
 - 🟢 Low Risk
 
-to help farmers quickly understand severity.
-
 ### 🔍 Searchable Reports
 Users can search reports by:
 
-- location  
-- category  
-- disease  
-- AI analysis text  
+- location
+- category
+- disease
+- AI analysis text
 
 ---
 
 ## 🏗️ Architecture
 
+```
 Farmer Device
-↓
+      ↓
 FieldSync Web App
-↓
+      ↓
 Offline Queue (Local Storage)
-↓
+      ↓
 Internet Restored
-↓
+      ↓
 Express API
-↓
+      ↓
 Image Upload → Supabase Storage
-↓
+      ↓
 AI Analysis → OpenAI
-↓
+      ↓
 Supabase PostgreSQL
-↓
+      ↓
 Dashboard Interface
+```
 
 FieldSync AI follows a **local-first architecture**, enabling farmers to submit reports even without internet connectivity. Reports are stored locally and automatically synchronized when connectivity returns.
 
@@ -128,19 +128,21 @@ FieldSync AI follows a **local-first architecture**, enabling farmers to submit 
 
 # 🔁 Offline Sync Workflow
 
+```
 Farmer submits report
-↓
+      ↓
 Internet available?
-├── YES → Send to API
-└── NO → Save locally
-↓
-Internet restored
-↓
-Offline reports sync
-↓
-AI analysis runs
-↓
-Dashboard updates
+      ├── YES → Send to API
+      └── NO → Save locally
+                ↓
+        Internet restored
+                ↓
+       Offline reports sync
+                ↓
+         AI analysis runs
+                ↓
+        Dashboard updates
+```
 
 This design allows farmers to **continue reporting even without connectivity**.
 
@@ -179,44 +181,61 @@ Clone the repository:
 ```bash
 git clone https://github.com/vaibhav0xq/fieldsync-ai.git
 cd fieldsync-ai
+```
 
 Install dependencies:
-npm install
 
-Create a .env file:
+```bash
+npm install
+```
+
+Create a `.env` file:
+
+```
 OPENAI_API_KEY=your_key
 SUPABASE_URL=your_url
 SUPABASE_KEY=your_key
+```
 
 Start the server:
+
+```bash
 node server.js
+```
 
 Open in browser:
-http://localhost:3000
 
-🚀 Future Improvements
+```
+http://localhost:3000
+```
+
+---
+
+# 🚀 Future Improvements
 
 Potential next steps include:
 
-Mobile app version
+- Mobile app version
+- Real-time crop disease alerts
+- Region-based disease tracking
+- Farm-level analytics
+- AI model trained on crop disease datasets
 
-Real-time crop disease alerts
+---
 
-Region-based disease tracking
+# 🏆 Hackathon Tracks
 
-Farm-level analytics
+This project was built for the **PowerSync AI Hackathon** and demonstrates a **local-first AI-powered agricultural diagnostics platform**.
 
-AI model trained on crop disease datasets
+---
 
-🏆 Hackathon Tracks
+# 👨‍💻 Author
 
-This project was built for the PowerSync AI Hackathon and demonstrates a local-first AI-powered agricultural diagnostics platform.
-
-👨‍💻 Author
-
-Vaibhav
+**Vaibhav**  
 Software Engineer | Web3 & AI Builder
 
-📜 License
+---
+
+# 📜 License
 
 MIT License
