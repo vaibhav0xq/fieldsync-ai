@@ -1,9 +1,14 @@
 # 🌾 FieldSync AI
+
 ### AI-Powered Crop Diagnostics with Local-First Reporting
 
 FieldSync AI is a crop health reporting platform designed for farmers and field workers operating in low-connectivity environments. Farmers can submit crop issue reports with optional images, receive AI-powered recommendations, and automatically synchronize reports to the cloud when internet connectivity becomes available.
 
 This project was built for the **PowerSync AI Hackathon**.
+
+## 📸 Demo
+
+![FieldSync Dashboard](assets)
 
 ---
 
@@ -166,6 +171,31 @@ This allows farmers or agronomists to quickly assess crop health across reports.
 
 ---
 
+## Run Locally
+
+Clone the project:
+
+```bash
+git clone https://github.com/vaibhav0xq/fieldsync-ai.git
+cd fieldsync-ai
+
+
+Install dependencies:
+npm install
+
+Create a .env file:
+OPENAI_API_KEY=your_key
+SUPABASE_URL=your_url
+SUPABASE_KEY=your_key
+
+Start the server:
+node server.js
+
+Open in browser:
+http://localhost:3000
+
+---
+
 # 🚀 Future Improvements
 
 Potential next steps include:
@@ -180,11 +210,7 @@ Potential next steps include:
 
 # 🏆 Hackathon Tracks
 
-This project qualifies for:
-
-- Main PowerSync AI Hackathon prizes
-- Best Local-First Submission
-- Best Supabase Submission
+This project made for PowerSync AI Hackathon
 
 ---
 
