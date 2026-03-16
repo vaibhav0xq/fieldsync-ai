@@ -238,4 +238,9 @@ Software Engineer | Web3 & AI Builder
 
 # License
 
-MIT License
+Source available — not open source.
+
+Copyright © 2026 Vaibhav.
+
+This repository is publicly visible for demonstration and hackathon evaluation only.  
+Reuse, redistribution, or commercial use of the code is not permitted without permission.
