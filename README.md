@@ -6,6 +6,8 @@ FieldSync AI is a crop health reporting platform designed for farmers and field 
 
 This project was built for the **PowerSync AI Hackathon**.
 
+---
+
 ## 📸 Demo
 
 ![FieldSync Dashboard](assets)
@@ -68,14 +70,14 @@ to help farmers quickly understand severity.
 ### 🔍 Searchable Reports
 Users can search reports by:
 
-- location
-- category
-- disease
-- AI analysis text
+- location  
+- category  
+- disease  
+- AI analysis text  
 
 ---
 
-# 🏗️ Architecture
+## 🏗️ Architecture
 
 Farmer Device
 ↓
@@ -95,8 +97,7 @@ Supabase PostgreSQL
 ↓
 Dashboard Interface
 
-
-The system is designed using **local-first principles** to support unreliable connectivity in rural farming environments.
+FieldSync AI follows a **local-first architecture**, enabling farmers to submit reports even without internet connectivity. Reports are stored locally and automatically synchronized when connectivity returns.
 
 ---
 
@@ -132,10 +133,10 @@ Farmer submits report
 Internet available?
 ├── YES → Send to API
 └── NO → Save locally
-
-When internet returns
 ↓
-Offline reports sync automatically
+Internet restored
+↓
+Offline reports sync
 ↓
 AI analysis runs
 ↓
@@ -153,7 +154,7 @@ FieldSync AI follows a **local-first architecture** where:
 - The application remains fully functional offline
 - Data automatically synchronizes with the cloud when connectivity returns
 
-This makes the platform suitable for **rural agriculture environments** with unreliable internet.
+This makes the platform suitable for **rural agriculture environments** with unreliable internet connectivity.
 
 ---
 
@@ -171,14 +172,13 @@ This allows farmers or agronomists to quickly assess crop health across reports.
 
 ---
 
-## Run Locally
+# 🚀 Run Locally
 
-Clone the project:
+Clone the repository:
 
 ```bash
 git clone https://github.com/vaibhav0xq/fieldsync-ai.git
 cd fieldsync-ai
-
 
 Install dependencies:
 npm install
@@ -194,33 +194,29 @@ node server.js
 Open in browser:
 http://localhost:3000
 
----
-
-# 🚀 Future Improvements
+🚀 Future Improvements
 
 Potential next steps include:
 
-- Mobile app version
-- Real-time crop disease alerts
-- Region-based disease tracking
-- Farm-level analytics
-- AI model trained on crop disease datasets
+Mobile app version
 
----
+Real-time crop disease alerts
 
-# 🏆 Hackathon Tracks
+Region-based disease tracking
 
-This project made for PowerSync AI Hackathon
+Farm-level analytics
 
----
+AI model trained on crop disease datasets
 
-# 👨‍💻 Author
+🏆 Hackathon Tracks
 
-Vaibhav  
+This project was built for the PowerSync AI Hackathon and demonstrates a local-first AI-powered agricultural diagnostics platform.
+
+👨‍💻 Author
+
+Vaibhav
 Software Engineer | Web3 & AI Builder
 
----
-
-# 📜 License
+📜 License
 
 MIT License
