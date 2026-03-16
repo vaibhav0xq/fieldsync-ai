@@ -10,7 +10,7 @@ This project was built for the **PowerSync AI Hackathon**.
 
 ## Demo
 
-![FieldSync Dashboard](assets)
+![FieldSync Dashboard](assets/dashboard.png)
 
 ---
 
