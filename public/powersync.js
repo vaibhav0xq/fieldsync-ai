@@ -1,19 +1,16 @@
-import { PowerSyncDatabase } from '@powersync/web';
+import { PowerSyncDatabase } from '@powersync/web'
 
-export const db = new PowerSyncDatabase({
+const db = new PowerSyncDatabase({
   schema: {
-    tables: {
-      reports: {
-        columns: {
-          id: 'text',
-          type: 'text',
-          category: 'text',
-          location: 'text',
-          description: 'text',
-          ai_analysis: 'text',
-          created_at: 'text'
-        }
-      }
+    reports: {
+      id: 'string',
+      type: 'string',
+      category: 'string',
+      location: 'string',
+      description: 'string',
+      image: 'string'
     }
   }
-});
+})
+
+export default db

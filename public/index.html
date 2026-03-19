@@ -46,6 +46,9 @@ Online
 
 </div>
 
+<!-- PowerSync -->
+<script type="module" src="/powersync.js"></script>
+
 <script>
 
 const form = document.getElementById("reportForm")
@@ -102,19 +105,16 @@ updateQueueStatus()
 
 
 /* ------------------------------
-OFFLINE STORAGE
+OFFLINE STORAGE (LOCALSTORAGE)
 ------------------------------ */
 
 function getOfflineReports(){
-
   return JSON.parse(localStorage.getItem(OFFLINE_QUEUE_KEY)) || []
-
 }
 
 function saveOfflineReport(report){
 
   const queue = getOfflineReports()
-
   queue.push(report)
 
   localStorage.setItem(
@@ -128,19 +128,36 @@ function saveOfflineReport(report){
 
 
 /* ------------------------------
+POWERSYNC SAVE (SAFE)
+------------------------------ */
+
+async function saveToPowerSync(report){
+
+  try{
+    if(window.powerSyncDB){
+      await window.powerSyncDB.reports.put({
+        id: Date.now().toString(),
+        ...report
+      })
+      console.log("Saved to PowerSync")
+    }
+  }catch(err){
+    console.log("PowerSync failed, fallback to localStorage")
+  }
+
+}
+
+
+/* ------------------------------
 IMAGE → BASE64
 ------------------------------ */
 
 function fileToBase64(file){
 
   return new Promise((resolve)=>{
-
     const reader = new FileReader()
-
     reader.onload = ()=> resolve(reader.result)
-
     reader.readAsDataURL(file)
-
   })
 
 }
@@ -153,7 +170,6 @@ BASE64 → BLOB
 async function base64ToBlob(base64){
 
   const res = await fetch(base64)
-
   return await res.blob()
 
 }
@@ -183,11 +199,8 @@ async function syncOfflineReports(){
     formData.append("description",report.description)
 
     if(report.image){
-
       const blob = await base64ToBlob(report.image)
-
       formData.append("image",blob,"offline.jpg")
-
     }
 
     await fetch("/api/report",{
@@ -236,15 +249,19 @@ OFFLINE MODE
       imageBase64=await fileToBase64(image)
     }
 
-    saveOfflineReport({
+    const report = {
       type,
       category,
       location,
       description,
       image:imageBase64
-    })
+    }
 
-    alert("No internet. Report saved offline.")
+    // Save BOTH (important for demo)
+    saveOfflineReport(report)
+    await saveToPowerSync(report)
+
+    alert("No internet. Report saved offline (PowerSync + LocalStorage).")
 
     form.reset()
 

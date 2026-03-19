@@ -18,10 +18,10 @@ This project was built for the **PowerSync AI Hackathon**.
 
 Farmers in rural regions often face:
 
-- Limited access to agronomy experts
-- Poor internet connectivity in fields
-- Delayed crop disease detection
-- Lack of structured reporting tools
+- Limited access to agronomy experts  
+- Poor internet connectivity in fields  
+- Delayed crop disease detection  
+- Lack of structured reporting tools  
 
 These issues can lead to **late intervention and crop loss**.
 
@@ -29,13 +29,13 @@ These issues can lead to **late intervention and crop loss**.
 
 # Solution
 
-FieldSync AI provides a **local-first crop diagnostics platform** where farmers can:
+FieldSync AI provides a **local-first crop diagnostics platform powered by PowerSync** where farmers can:
 
-- Submit crop issue reports with images
-- Receive AI-generated diagnosis and treatment advice
-- Store reports locally when offline
-- Automatically sync reports when internet returns
-- View historical reports in a centralized dashboard
+- Submit crop issue reports with images  
+- Receive AI-generated diagnosis and treatment advice  
+- Store reports locally using PowerSync when offline  
+- Automatically sync reports when internet returns  
+- View historical reports in a centralized dashboard  
 
 This ensures **continuous operation even in poor connectivity environments**.
 
@@ -49,11 +49,11 @@ Reports are analyzed using OpenAI to identify potential crop diseases and recomm
 ### Image-Based Reporting
 Farmers can attach crop images to help the AI analyze plant health issues.
 
-### Local-First Offline Mode
-Reports are saved locally when internet connectivity is unavailable.
+### Local-First Offline Mode (PowerSync)
+Reports are stored locally using **PowerSync with local storage fallback** when internet connectivity is unavailable.
 
 ### Automatic Sync
-Once connectivity returns, reports automatically synchronize with the cloud database.
+Once connectivity returns, reports automatically synchronize with the backend and trigger AI analysis.
 
 ### Live Dashboard
 A dashboard displays submitted reports, images, AI analysis, and risk levels.
@@ -61,17 +61,17 @@ A dashboard displays submitted reports, images, AI analysis, and risk levels.
 ### AI Risk Classification
 AI responses are classified into:
 
-- 🔴 High Risk
-- 🟡 Moderate Risk
-- 🟢 Low Risk
+- 🔴 High Risk  
+- 🟡 Moderate Risk  
+- 🟢 Low Risk  
 
 ### Searchable Reports
 Users can search reports by:
 
-- location
-- category
-- disease
-- AI analysis text
+- location  
+- category  
+- disease  
+- AI analysis text  
 
 ---
 
@@ -82,7 +82,9 @@ Farmer Device
       ↓
 FieldSync Web App
       ↓
-Offline Queue (Local Storage)
+PowerSync Local Database
+      ↓
+Offline Storage (PowerSync + Fallback)
       ↓
 Internet Restored
       ↓
@@ -97,32 +99,35 @@ Supabase PostgreSQL
 Dashboard Interface
 ```
 
-FieldSync AI follows a **local-first architecture**, enabling farmers to submit reports even without internet connectivity. Reports are stored locally and automatically synchronized when connectivity returns.
+FieldSync AI follows a **local-first architecture powered by PowerSync**, enabling farmers to submit reports even without internet connectivity. Data is stored locally and automatically synchronized when connectivity returns.
 
 ---
 
 # Tech Stack
 
 ### Frontend
-- HTML
-- CSS
-- Vanilla JavaScript
+- HTML  
+- CSS  
+- Vanilla JavaScript  
 
 ### Backend
-- Node.js
-- Express.js
+- Node.js  
+- Express.js  
 
 ### Database
-- Supabase PostgreSQL
+- Supabase PostgreSQL  
 
 ### File Storage
-- Supabase Storage
+- Supabase Storage  
 
 ### AI
-- OpenAI GPT model
+- OpenAI GPT model  
+
+### Local-First Engine
+- PowerSync  
 
 ### Image Upload
-- Multer
+- Multer  
 
 ---
 
@@ -133,11 +138,11 @@ Farmer submits report
       ↓
 Internet available?
       ├── YES → Send to API
-      └── NO → Save locally
+      └── NO → Store locally using PowerSync
                 ↓
         Internet restored
                 ↓
-       Offline reports sync
+       PowerSync syncs data
                 ↓
          AI analysis runs
                 ↓
@@ -150,11 +155,11 @@ This design allows farmers to **continue reporting even without connectivity**.
 
 # Local-First Design
 
-FieldSync AI follows a **local-first architecture** where:
+FieldSync AI follows a **local-first architecture powered by PowerSync** where:
 
-- Reports are stored locally on the device
-- The application remains fully functional offline
-- Data automatically synchronizes with the cloud when connectivity returns
+- Reports are stored locally on the device  
+- The application remains fully functional offline  
+- Data automatically synchronizes with the cloud when connectivity returns  
 
 This makes the platform suitable for **rural agriculture environments** with unreliable internet connectivity.
 
@@ -164,11 +169,11 @@ This makes the platform suitable for **rural agriculture environments** with unr
 
 The dashboard displays:
 
-- report metadata
-- uploaded crop images
-- AI diagnosis
-- risk level classification
-- timestamps
+- report metadata  
+- uploaded crop images  
+- AI diagnosis  
+- risk level classification  
+- timestamps  
 
 This allows farmers or agronomists to quickly assess crop health across reports.
 
@@ -215,29 +220,28 @@ http://localhost:3000
 
 Potential next steps include:
 
-- Mobile app version
-- Real-time crop disease alerts
-- Region-based disease tracking
-- Farm-level analytics
-- AI model trained on crop disease datasets
+- Full PowerSync backend integration  
+- Mobile app version  
+- Real-time crop disease alerts  
+- Region-based disease tracking  
+- Farm-level analytics  
+- AI model trained on crop disease datasets  
 
 ---
 
 # Hackathon Tracks
 
-This project was built for the **PowerSync AI Hackathon** and demonstrates a **local-first AI-powered agricultural diagnostics platform**.
+This project was built for the **PowerSync AI Hackathon** and demonstrates a **local-first AI-powered agricultural diagnostics platform powered by PowerSync**.
 
 ---
 
 # Author
 
 **Vaibhav**  
-Software Engineer | Web3 & AI Builder
+Software Engineer | Web3 & AI Builder  
 
 ---
 
 # License
-
-Copyright © 2026 Vaibhav
 
 This project is licensed under the MIT License.
