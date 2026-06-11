@@ -2,6 +2,9 @@
 
 ### AI-Powered Crop Diagnostics with Local-First Reporting
 
+> **Project status:** This project is no longer actively maintained.
+> It is kept public as an archive/reference.
+
 FieldSync AI is a crop health reporting platform designed for farmers and field workers operating in low-connectivity environments. Farmers can submit crop issue reports with optional images, receive AI-powered recommendations, and automatically synchronize reports to the cloud when internet connectivity becomes available.
 
 This project was built for the **PowerSync AI Hackathon**.
@@ -14,70 +17,77 @@ This project was built for the **PowerSync AI Hackathon**.
 
 ---
 
-# Problem
+## Problem
 
 Farmers in rural regions often face:
 
-- Limited access to agronomy experts  
-- Poor internet connectivity in fields  
-- Delayed crop disease detection  
-- Lack of structured reporting tools  
+* Limited access to agronomy experts
+* Poor internet connectivity in fields
+* Delayed crop disease detection
+* Lack of structured reporting tools
 
 These issues can lead to **late intervention and crop loss**.
 
 ---
 
-# Solution
+## Solution
 
 FieldSync AI provides a **local-first crop diagnostics platform powered by PowerSync** where farmers can:
 
-- Submit crop issue reports with images  
-- Receive AI-generated diagnosis and treatment advice  
-- Store reports locally using PowerSync when offline  
-- Automatically sync reports when internet returns  
-- View historical reports in a centralized dashboard  
+* Submit crop issue reports with images
+* Receive AI-generated diagnosis and treatment advice
+* Store reports locally using PowerSync when offline
+* Automatically sync reports when internet returns
+* View historical reports in a centralized dashboard
 
-This ensures **continuous operation even in poor connectivity environments**.
+This ensures **continuous operation even in poor-connectivity environments**.
 
 ---
 
-# Key Features
+## Key Features
 
 ### AI Crop Diagnostics
+
 Reports are analyzed using OpenAI to identify potential crop diseases and recommended actions.
 
 ### Image-Based Reporting
+
 Farmers can attach crop images to help the AI analyze plant health issues.
 
-### Local-First Offline Mode (PowerSync)
+### Local-First Offline Mode
+
 Reports are stored locally using **PowerSync with local storage fallback** when internet connectivity is unavailable.
 
 ### Automatic Sync
+
 Once connectivity returns, reports automatically synchronize with the backend and trigger AI analysis.
 
 ### Live Dashboard
+
 A dashboard displays submitted reports, images, AI analysis, and risk levels.
 
 ### AI Risk Classification
+
 AI responses are classified into:
 
-- 🔴 High Risk  
-- 🟡 Moderate Risk  
-- 🟢 Low Risk  
+* 🔴 High Risk
+* 🟡 Moderate Risk
+* 🟢 Low Risk
 
 ### Searchable Reports
+
 Users can search reports by:
 
-- location  
-- category  
-- disease  
-- AI analysis text  
+* Location
+* Category
+* Disease
+* AI analysis text
 
 ---
 
 ## Architecture
 
-```
+```text
 Farmer Device
       ↓
 FieldSync Web App
@@ -103,37 +113,44 @@ FieldSync AI follows a **local-first architecture powered by PowerSync**, enabli
 
 ---
 
-# Tech Stack
+## Tech Stack
 
 ### Frontend
-- HTML  
-- CSS  
-- Vanilla JavaScript  
+
+* HTML
+* CSS
+* Vanilla JavaScript
 
 ### Backend
-- Node.js  
-- Express.js  
+
+* Node.js
+* Express.js
 
 ### Database
-- Supabase PostgreSQL  
+
+* Supabase PostgreSQL
 
 ### File Storage
-- Supabase Storage  
+
+* Supabase Storage
 
 ### AI
-- OpenAI GPT model  
+
+* OpenAI GPT model
 
 ### Local-First Engine
-- PowerSync  
+
+* PowerSync
 
 ### Image Upload
-- Multer  
+
+* Multer
 
 ---
 
-# Offline Sync Workflow
+## Offline Sync Workflow
 
-```
+```text
 Farmer submits report
       ↓
 Internet available?
@@ -153,33 +170,33 @@ This design allows farmers to **continue reporting even without connectivity**.
 
 ---
 
-# Local-First Design
+## Local-First Design
 
 FieldSync AI follows a **local-first architecture powered by PowerSync** where:
 
-- Reports are stored locally on the device  
-- The application remains fully functional offline  
-- Data automatically synchronizes with the cloud when connectivity returns  
+* Reports are stored locally on the device
+* The application remains fully functional offline
+* Data automatically synchronizes with the cloud when connectivity returns
 
 This makes the platform suitable for **rural agriculture environments** with unreliable internet connectivity.
 
 ---
 
-# Example Dashboard
+## Example Dashboard
 
 The dashboard displays:
 
-- report metadata  
-- uploaded crop images  
-- AI diagnosis  
-- risk level classification  
-- timestamps  
+* Report metadata
+* Uploaded crop images
+* AI diagnosis
+* Risk level classification
+* Timestamps
 
 This allows farmers or agronomists to quickly assess crop health across reports.
 
 ---
 
-# Run Locally
+## Run Locally
 
 Clone the repository:
 
@@ -196,7 +213,7 @@ npm install
 
 Create a `.env` file:
 
-```
+```env
 OPENAI_API_KEY=your_key
 SUPABASE_URL=your_url
 SUPABASE_KEY=your_key
@@ -210,38 +227,32 @@ node server.js
 
 Open in browser:
 
-```
+```text
 http://localhost:3000
 ```
 
 ---
 
-# Future Improvements
+## Future Improvements
 
 Potential next steps include:
 
-- Full PowerSync backend integration  
-- Mobile app version  
-- Real-time crop disease alerts  
-- Region-based disease tracking  
-- Farm-level analytics  
-- AI model trained on crop disease datasets  
+* Full PowerSync backend integration
+* Mobile app version
+* Real-time crop disease alerts
+* Region-based disease tracking
+* Farm-level analytics
+* AI model trained on crop disease datasets
 
 ---
 
-# Hackathon Tracks
+## Author
 
-This project was built for the **PowerSync AI Hackathon** and demonstrates a **local-first AI-powered agricultural diagnostics platform powered by PowerSync**.
-
----
-
-# Author
-
-**Vaibhav**  
-Software Engineer | Web3 & AI Builder  
+**Vaibhav**
+Software Engineer | Web3 & AI Builder
 
 ---
 
-# License
+## License
 
 This project is licensed under the MIT License.
