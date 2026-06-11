@@ -2,8 +2,9 @@
 
 ### AI-Powered Crop Diagnostics with Local-First Reporting
 
-> **Project status:** This project is no longer actively maintained.
-> It is kept public as an archive/reference.
+> **Project status:** This project is no longer actively maintained.  
+> It is kept public as an archive/reference.  
+> No new features are planned, but the code remains available for learning and reference.
 
 FieldSync AI is a crop health reporting platform designed for farmers and field workers operating in low-connectivity environments. Farmers can submit crop issue reports with optional images, receive AI-powered recommendations, and automatically synchronize reports to the cloud when internet connectivity becomes available.
 
